@@ -17,6 +17,8 @@ body {
     opacity: .3;
     transition: all 150ms ease-in-out;
     z-index: 100;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 .camera:hover{
