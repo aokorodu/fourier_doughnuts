@@ -1,5 +1,5 @@
 const w = window.innerWidth;
-const h = window.innerHeight;
+const h = window.innerHeight - 50;
 const cx = w/2;
 const cy = h/2;
 const maxR = cx > cy ? cy - 100 : cx - 100;
@@ -23,7 +23,9 @@ let timeDrawn = false;
 let titleTyped = false;
 
 let pictureCount = 0;
-let maxPictures = 50;
+let picturesPerMin = 2;
+let maxTime = 10;
+let maxPictures = picturesPerMin * maxTime;
 
 let hour, minute;
 
@@ -31,7 +33,7 @@ function setup() {
     frameRate(60);
     strokeCap(PROJECT);
     colorMode(HSB, 1000, 100, 100, 100);
-    radii = [random(maxR/4,maxR/2), random(maxR/4,maxR/2)];
+    radii = [random(maxR/6,maxR/2), random(maxR/6,maxR/2)];
     tickRadius = radii[0] + radii[1] + (0.2 * (radii[0] + radii[1]));
     currentPont = createVector();
     lastPoint = createVector();
@@ -144,7 +146,7 @@ function buildWheels(){
     const num = radii.length;
     let factor = Math.round(random(1,10))
     for(let i = 0; i < num; i++){
-        const wheel = new Wheel(radii[i], random(-PI/15, PI/15));
+        const wheel = new Wheel(radii[i], random(-PI/4, PI/4));
         wheel.init();
         wheels.push(wheel);
     }
