@@ -6,6 +6,10 @@ class Wheel{
         this.position;
     }
 
+    setVelocity(newVelocity){
+        this.anglelVel = newVelocity;
+    }
+
     init(){
         this.position = createVector(0, this.r);
     }

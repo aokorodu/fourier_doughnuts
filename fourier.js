@@ -29,6 +29,10 @@ let maxPictures = picturesPerMin * maxTime;
 
 let hour, minute;
 
+let paused = true;
+
+let wSpeed = 4;
+
 function setup() {
     frameRate(60);
     strokeCap(PROJECT);
@@ -43,6 +47,14 @@ function setup() {
     buildWheels();
     startPoint = lastPoint = currentPoint = getPoint();
     initTime();
+}
+
+function updateAnglularVelocity(newSpeed){
+    wSpeed = newSpeed;
+    console.log('new velocity: ', wSpeed)
+    for(let wheel of wheels){
+        wheel.setVelocity(random(-PI/wSpeed, PI/wSpeed))
+    }
 }
 
 function initTime(){
@@ -105,7 +117,7 @@ function drawClock(){
     const ypos = tickRadius + 40;
     push();
     for(let i = 0; i < 60; i++){
-        let tickLength = i % 5 == 0 ? 7.5 : 2.5;
+        let tickLength = i % 5 == 0 ? 12.5 : 2.5;
         strokeWeight(1);
         stroke(hue,saturation, 100, 40);
         line(0, -ypos, 0, -(ypos + tickLength));
@@ -143,16 +155,21 @@ function drawTime(){
 }
 
 function buildWheels(){
+    console.log('wheel speed: ', wSpeed)
     const num = radii.length;
     let factor = Math.round(random(1,10))
     for(let i = 0; i < num; i++){
-        const wheel = new Wheel(radii[i], random(-PI/4, PI/4));
+        const wheel = new Wheel(radii[i], random(-PI/wSpeed, PI/wSpeed));
         wheel.init();
         wheels.push(wheel);
     }
 }
 
 function draw() {
+    if(paused){
+        noLoop();
+        return;
+    }
     translate(cx, cy);
     drawDays();
     drawClock();
@@ -222,4 +239,11 @@ function typeTitle() {
     fill(hue,saturation, 100, 30)
     textSize(11);
     text(`${new Date().getFullYear()}`, 0, cy- 25);
+}
+
+function togglePause() {
+    paused = !paused;
+    paused ? noLoop() : loop();
+    draw();
+
 }
