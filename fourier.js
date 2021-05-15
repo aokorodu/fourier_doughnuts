@@ -1,8 +1,9 @@
 const w = window.innerWidth;
 const h = window.innerHeight - 50;
-const cx = w/2;
-const cy = h/2;
-const maxR = cx > cy ? cy - 100 : cx - 100;
+const lngth = w >= h ? h : w;
+const cx = lngth/2;
+const cy = lngth/2;
+const maxR = cx - 150;
 let wheels = [];
 let startPoint, currentPoint, lastPoint
 let radii;
@@ -31,22 +32,33 @@ let hour, minute;
 
 let paused = true;
 
-let wSpeed = 4;
+let wSpeed = 20;
+
+let autoSave = false;
 
 function setup() {
-    frameRate(60);
+    frameRate(50);
     strokeCap(PROJECT);
     colorMode(HSB, 1000, 100, 100, 100);
-    radii = [random(maxR/6,maxR/2), random(maxR/6,maxR/2)];
+    //radii = [random(maxR/4,maxR/2), random(maxR/4,maxR/2)];
+    const l1 = 1 + Math.random()*7;
+    const l2 = 9 - l1;
+    radii = [l1/10 * maxR, l2/10 * maxR, 10];
+    //radii = [random(maxR/4,maxR/2), random(maxR/4,maxR/2.2)];
     tickRadius = radii[0] + radii[1] + (0.2 * (radii[0] + radii[1]));
     currentPont = createVector();
     lastPoint = createVector();
-    canvas = createCanvas(w, h);
+    canvas = createCanvas(lngth, lngth);
     pixelDensity(4);
     background(0);
     buildWheels();
     startPoint = lastPoint = currentPoint = getPoint();
     initTime();
+    translate(cx, cy);
+    drawDays();
+    drawClock();
+    drawTime();
+    typeTitle();
 }
 
 function updateAnglularVelocity(newSpeed){
@@ -57,13 +69,20 @@ function updateAnglularVelocity(newSpeed){
     }
 }
 
+function updateHue(newHue){
+    hue = newHue;
+}
+
 function initTime(){
     startTime = Math.floor(Date.now()/1000);
 }
 
 function saveCopy(){
+    if(!autoSave) return;
+
     const t = Math.floor(Date.now()/1000);
     let dt = t - startTime;
+    console.log('dt: ', dt)
     if(dt > elapsedTime){
         elapsedTime = dt;
         if(dt % 30 == 0) saveImage();
@@ -159,7 +178,7 @@ function buildWheels(){
     const num = radii.length;
     let factor = Math.round(random(1,10))
     for(let i = 0; i < num; i++){
-        const wheel = new Wheel(radii[i], random(-PI/wSpeed, PI/wSpeed));
+        const wheel = new Wheel(radii[i], random(-PI/wSpeed, PI/wSpeed) /*random(-PI/wSpeed, PI/(wSpeed)*/);
         wheel.init();
         wheels.push(wheel);
     }
@@ -171,16 +190,10 @@ function draw() {
         return;
     }
     translate(cx, cy);
-    drawDays();
-    drawClock();
-    drawTime();
-    typeTitle();
     
     currentPoint = getPoint();
     const dist = getDistance(currentPoint);
     const alph = map(dist, 0, (radii[0] + radii[1]), 25, 5)
-    //const alph = ((radii[0] + radii[1]) - dist)/(radii[0] + radii[1]);
-    //const alph = dist/radii[0];
 
     strokeWeight(1);
     stroke(hue,saturation, 100, alph)
@@ -212,6 +225,7 @@ function getDistance(pt){
 // }
 
 function saveImage() {
+    console.log('save image')
     pictureCount++
     saveCanvas(canvas, `${getTitleString()}`, 'png');
 }
@@ -235,10 +249,12 @@ function typeTitle() {
     rectMode(CENTER);
     textSize(12);
     textAlign(CENTER);
-    text(`Z U U B A  D I G I T A L`, 0, cy - 40);
+    text(`~    Z U U B A  D I G I T A L    ~`, 0, cy - 25);
     fill(hue,saturation, 100, 30)
     textSize(11);
-    text(`${new Date().getFullYear()}`, 0, cy- 25);
+    let dateString = `${new Date().getFullYear()}`;
+    dateString = dateString.split("").join(" ");
+    text(dateString, 0, cy- 12);
 }
 
 function togglePause() {

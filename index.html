@@ -20,28 +20,40 @@
 </head>
 
 <body>
-  <div class="intro">
-    <div class="title">: zuubaDigital :
-    </div>
-    <div class="description">Eiusmod est nulla incididunt exercitation excepteur cupidatat sunt adipisicing voluptate
-      culpa nisi commodo. Adipisicing sit culpa laborum tempor eu aliqua veniam et aute ad deserunt sint. </div>
-
-    <div class="slidecontainer">
-      <label class="label">
-        <span>wheel speed</span>
-        <input type="range" min=".5" max="10" step=".1" value="5.5" class="slider" id="wheel_speed" />
-      </label>
-    </div>
-
-    <div class="slidecontainer">
-      <label class="label">
-        <span>wheel radius range</span>
-        <input type="range" min="1" max="10" step=".1" value="5.5" class="slider" id="wheel_speed" />
-      </label>
-    </div>
-
-
+  <div class="landing-holder">
+    
   </div>
+  <div class="intro">
+    <div class="intro-content-container">
+      
+      <div class="description">.</div>
+
+      <div class="slidecontainer">
+        <label class="label">
+          <span>angular velocity</span>
+          <input type="range" min="10" max="30" step=".1" value="20" class="slider" id="wheel_speed" />
+        </label>
+      </div>
+
+      <div class="slidecontainer">
+        <label class="label">
+          <span>color</span>
+          <input type="range" min="1" max="1000" step="1" value="500" class="slider" id="color_hue" />
+        </label>
+      </div>
+
+
+      <label class="checkboxContainer">auto-save
+        <input type="checkbox" id="autoSave">
+        <span class="checkmark"></span>
+      </label>
+
+      <div class="toggle">PLAY</div>
+    </div>
+  </div>
+
+
+
   <div class="controls">
     <div class="camera">
       <svg viewBox="0 0 512 512">
@@ -53,22 +65,36 @@
         </g>
       </svg>
     </div>
-    <div class="toggle">PLAY</div>
   </div>
 
 </body>
 <script>
   const speedSlider = document.querySelector("#wheel_speed");
-  speedSlider.addEventListener("input", (e)=>{
+  speedSlider.addEventListener("input", (e) => {
     console.log(e.target.value);
     //wSpeed = e.target.value;
     updateAnglularVelocity(11 - e.target.value);
   })
+
+  const colorSlider = document.querySelector("#color_hue");
+  colorSlider.addEventListener("input", (e) => {
+    console.log('new color: ', e.target.value);
+    //wSpeed = e.target.value;
+    updateHue(e.target.value);
+  })
+
+
   const toggle = document.querySelector(".toggle");
   toggle.addEventListener("click", (e) => {
     console.log('click');
     togglePause();
     toggle.innerHTML = paused ? "PLAY" : "PAUSE";
+  })
+
+  const autoSaveCheckBox = document.querySelector("#autoSave");
+  autoSaveCheckBox.addEventListener("input", (e) => {
+    console.log('autosave? ', e.target.checked);
+    autoSave = e.target.checked;
   })
   const path = document.getElementById("camera-path");
   path.setAttribute("fill", `hsl(${Math.round(hue / 1000 * 360)}, 100%, 59%)`)
