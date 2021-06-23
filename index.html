@@ -56,7 +56,7 @@
 
 
       <label class="checkboxContainer">auto-save
-        <input type="checkbox" id="autoSave" autocomplete="off" checked>
+        <input type="checkbox" id="autoSave" autocomplete="off">
         <span class="checkmark"></span>
       </label>
 
@@ -185,6 +185,7 @@
   // settings controls
 
   const autoSaveCheckBox = document.querySelector("#autoSave");
+  autoSave = autoSaveCheckBox.checked;
   autoSaveCheckBox.addEventListener("input", (e) => {
     console.log('autosave? ', e.target.checked);
     autoSave = e.target.checked;
