@@ -7,30 +7,115 @@ body {
     font-weight: 200;;
     padding: 0; 
     margin: 0; 
-    background-color: black;
+    background-color: rgb(0, 0, 0);
     color: #eaeaea;
 } 
+
+:root {
+  --main-text-color: rgb(250, 121, 250);
+}
+
+#myVideo {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: .5;
+}
+
+.landing-title {
+  font-variant: small-caps;
+  letter-spacing: .2rem;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #eaeaea;
+  font-weight: 600;
+}
+
+.landing-description {
+  font-size: .8rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.landing-holder {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: var(--main-text-color);
+  background: black;
+  box-sizing: border-box;
+
+}
+
+.landing-background{
+  position: inherit;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  background-image: url("./assets/bg_image.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: .4;
+}
+
+.landing-content-container {
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.ui-button {
+  padding: .5rem 1rem;
+  border: 1px solid #eaeaea;
+  color: #eaeaea;
+  background-color: black;
+  
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 250ms ease-in-out;
+  border-radius: 10px;
+}
+
+.ui-button:hover{
+  color: black;
+  background-color: #eaeaea;
+}
 
 main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: -10;
 }
 
 .controls {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    align-content: center;
+  position: absolute;
+  margin: auto;
+  top: 20px;
+  width: 100%;
+  padding: 0 50px;
+  height: 25px;
+  z-index: 200;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
-
 
 .camera {
     width: 40px;
-    height: 40px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -38,27 +123,46 @@ main {
     align-items: center;
     opacity: .3;
     transition: all 150ms ease-in-out;
-    z-index: 100;
 }
 
 .camera:hover{
-    opacity: .5;
+  opacity: .5;
 }
 
-.toggle {
-    color: white;
+.gear {
+  width: 40px;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: .3;
+    transition: all 150ms ease-in-out;
+}
+
+.gear:hover{
+  opacity: .5;
+}
+
+
+
+.playButton {
+    color: var(--main-text-color);
     cursor: pointer;
     letter-spacing: 2px;
     font-size: 12px;
     width: 100px;
-    border: 1px solid white;
+    border: 1px solid var(--main-text-color);
     text-align: center;
     height: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 50px;
     border-radius: 10px;
+    transition: all 150ms ease-in-out;
+}
+
+.playButton:hover{
+  border: 1px solid white;
 }
 
 .title {
@@ -69,30 +173,44 @@ main {
 }
 
 .intro {
+  font-size: 12px;
     position: absolute;
-    top: 0;
-    left: 0;
-    border-right: 1px solid #212121;
+    top: 50%;
+    left: 50%;
+    width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
-    padding: 20px;
-    width: 100%;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     align-content: center;
-    /* background-color: rgba(0,0,0,.5); */
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,.8);
 }
 
 .intro-content-container{
+  position: relative;
+  color: var(--main-text-color);
   width: 50%;
-  min-width: 300px;
+  max-width: 500px;
   height: 100%;
+  max-height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-    align-items: center;
-    align-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.close-button{
+  position: absolute;
+  color: var(--main-text-color);
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 50%;
+  font-weight: bold;
 }
 
 .hidden {
@@ -178,17 +296,89 @@ main {
       height: 20px;
       width: 20px;
       background-color: #000;
-      border: 1px solid #6a6a6a;
+      border: 1px solid var(--main-text-color);
       border-radius: 4px;
       transition: all 150ms ease-in-out;
   }
 
   .checkmark:hover {
-    border: 1px solid white;
-}
+    border: 2px solid white;
+  }
 
   .checkboxContainer input:checked ~ .checkmark {
-    background-color: white;
-    opacity: .7;
+    background-color: var(--main-text-color);
+  }
+
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  
+  /* The switch-slider */
+  .switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0, 0, 0);
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 10px;
+    border: 2px solid var(--main-text-color);
+  }
+
+  .switch-slider:hover {
+    border: 2px solid white;
+  }
+  
+  .switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--main-text-color);
+    border-radius: 8px;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  /* input:checked + .switch-slider {
+    background-color: #3f0303;
+  } */
+  
+  input:focus + .switch-slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .switch-slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  .switch-holder{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .switch-holder > span{
+    margin: 0 10px;
   }
 
